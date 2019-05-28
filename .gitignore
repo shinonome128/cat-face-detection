@@ -1,0 +1,5 @@
+# .gitignore
+DATA/
+__pycache__/
+*.swp
+*.result
