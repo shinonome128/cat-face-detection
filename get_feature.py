@@ -3,13 +3,12 @@ import numpy as np
 from skimage import io, feature, color
 from glob import iglob
 import pickle
+from MacOSFile import pickle_dump, pickle_load
 # import pdb; pdb.set_trace()
 
-WIDTH, HEIGHT = (64, 64)
-LBP_POINTS = 24
-LBP_RADIUS = 3
-
 def get_histogram_feature(lbp):
+    WIDTH, HEIGHT = (64, 64)
+    LBP_POINTS = 24
     cell_size = 8
     bins = LBP_POINTS + 2
     histograms = []
@@ -24,6 +23,8 @@ def get_histogram_feature(lbp):
     return np.concatenate(histograms)
 
 def get_features(directory):
+    LBP_POINTS = 24
+    LBP_RADIUS = 3
     features = []
     for fn in iglob('%s/*.png' % directory):
         image = color.rgb2gray(io.imread(fn))
@@ -37,26 +38,22 @@ def main():
     positive_dir = sys.argv[1]
     negative_dir = sys.argv[2]
     """
-    """
-    # Set train data feature
     positive_dir = "./DATA/POSITIVES"
-    negative_dir = "./DATA/NEGATIVES"
+    negative_dir = ["./DATA/NEGATIVES", "./DATA/NEGATIVE_ADD"]
     """
-    # Set test data feature
     positive_dir = "./DATA/POSITIVE_TEST"
     negative_dir = "./DATA/NEGATIVE_TEST"
-
+    """
     positive_samples = get_features(positive_dir)
-    negative_samples = get_features(negative_dir)
+    negative_samples = []
+    for i in negative_dir:
+        negative_samples.extend(get_features(i))
     n_positives = len(positive_samples)
     n_negatives = len(negative_samples)
     X = np.array(positive_samples + negative_samples)
     y = np.array([1 for i in range(n_positives)] +
                  [0 for i in range(n_negatives)])
-    print(X.shape, y.shape)
-    # Set test data feature
-    pickle.dump((X, y), open("./get_feature.result_test", 'wb'))
+    pickle_dump((X, y), "./get_feature.result")
 
 if __name__ == "__main__":
     main()
-

@@ -16,6 +16,9 @@ https://www.kaggle.com/crawford/cat-dataset
 NMSの図形
 https://docs.google.com/presentation/d/1FYgxdAeDVmo7wtlfCoXHYwF_iqbsmsZczl9USDnf814/edit?usp=sharing
 
+pickle dump mac でサイズが大きいと動かない
+https://stackoverflow.com/questions/31468117/python-3-can-pickle-handle-byte-objects-larger-than-4gb
+
 ## やること
 
 正例画像の準備
@@ -188,6 +191,8 @@ check_detection.py
 
 教師データの準備
 create_new_negatives.py
+1.3G
+18.2万枚
 
 特徴量抽出
 get_feature.py
@@ -205,22 +210,41 @@ get_histogram.py のヒストグラムは画像をわたして、特徴量、ヒ
 pickle.dump((X, y), open("./get_feature.result", 'wb'))
 OSError: [Errno 22] Invalid argument
 ```
+pickle dump をmac で動かす時の不具合
+特徴量で、2.4G のバイナリになった
 
 モデル構築
 make_model.py
 
 モデル精度測定
-select_test_data.sh
 get_accuracy.py
 
 検出処理
 get_detections.py
-apply_nms.py
 get_histogram.py
 view_detections.py
+apply_nms.py
 
 検出精度測定
 check_detection.py
 create_new_negatives.py
+
+## 総括
+
+２周目やってみたけど、全然改善しない
+結果が出るまでが遅すぎる
+大きく外れているか、あっているかをみる場合は、少ないファイルで実施すべき
+一旦終わらせて、どうやれば、最短でコンテスト20以内を狙えるか、実用的になれるか考える
+
+スキル問題
+結果がでる手法が身につけれてない
+SIGNITの演習をやってみる
+論文よんで実装までのやり方を真似てみる
+松尾教授の講座を受けてみる
+
+環境問題
+処理に時間がかかりすぎる
+GCP のインスタンスでやる？
+データ、どうしよう。。
 
 EOF

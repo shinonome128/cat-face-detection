@@ -4,6 +4,7 @@ Load module
 import sys
 import sklearn.svm
 import pickle
+from MacOSFile import pickle_dump, pickle_load
 # import pdb; pdb.set_trace()
 
 
@@ -11,7 +12,8 @@ def main():
 
     # Read binary file of parameters and store in explanatory variable X, objective variable y
     # X, y = pickle.load(open(sys.argv[1], 'r+b'))
-    X, y = pickle.load(open("./get_feature.result", 'r+b'))
+    # X, y = pickle.load(open("./get_feature.result", 'r+b'))
+    X, y = pickle_load("./get_feature.result")
 
     # Create an instance of SVM
     classifier = sklearn.svm.LinearSVC(C = 0.0001)
