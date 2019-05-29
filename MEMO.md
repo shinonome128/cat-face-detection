@@ -13,9 +13,6 @@ Kindle
 kaggle, Cat Datasets, 2GBある。。
 https://www.kaggle.com/crawford/cat-dataset
 
-タイヤ画像
-/Users/mototsugu.kuroda/Documents/BS_winter_tires_labeling/TEST/20190313_B-Linc
-
 NMSの図形
 https://docs.google.com/presentation/d/1FYgxdAeDVmo7wtlfCoXHYwF_iqbsmsZczl9USDnf814/edit?usp=sharing
 
@@ -36,11 +33,6 @@ https://docs.google.com/presentation/d/1FYgxdAeDVmo7wtlfCoXHYwF_iqbsmsZczl9USDnf
 
 猫の写ってない画像 100 枚をダウンロードする
 あー、タイヤデータ使おう
-
-```
-mkdir ./DATA/TIRE
-cp /Users/mototsugu.kuroda/Documents/BS_winter_tires_labeling/TEST/20190313_B-Linc/* ./DATA/TIRE/
-```
 
 ## データ下処理, 特徴量抽出
 
@@ -167,5 +159,68 @@ crop_faces.py を流用
 画像パスと座標を渡し、クロップし、リサイズして、ファイル保存
 
 ## 使いした負例画像からモデルを作成、テスト、結果表示までを自動化する
+
+初回手順
+
+教師データの準備
+crop_faces.py
+crop_negatives.py
+
+特徴量抽出
+get_feature.py
+get_histogram.py
+
+モデル構築
+make_model.py
+
+モデル精度測定
+select_test_data.sh
+get_accuracy.py
+
+検出処理
+get_detections.py
+apply_nms.py
+
+検出精度測定
+check_detection.py
+
+2周目以降の手順
+
+教師データの準備
+create_new_negatives.py
+
+特徴量抽出
+get_feature.py
+データ管理方法で悩む
+追加されたデータを同一ディレクトリで管理するのか
+複数ディレクトリで管理するのか
+繰り返し反復するのでデータ量は増える
+再現性がある
+ディレクトリ毎に分かれている方がわかりやすいかも
+ヒストグラム機能が二つに分かれている、修正が必要
+get_feature.py のヒストグラムはldp を渡している
+get_histogram.py のヒストグラムは画像をわたして、特徴量、ヒストグラムを同時に計算している
+動作がちがうけど、まぁいいか。動くし
+```
+pickle.dump((X, y), open("./get_feature.result", 'wb'))
+OSError: [Errno 22] Invalid argument
+```
+
+モデル構築
+make_model.py
+
+モデル精度測定
+select_test_data.sh
+get_accuracy.py
+
+検出処理
+get_detections.py
+apply_nms.py
+get_histogram.py
+view_detections.py
+
+検出精度測定
+check_detection.py
+create_new_negatives.py
 
 EOF
